@@ -29,7 +29,7 @@ export default class Login extends React.Component {
           return;
         }
         firebase.auth().createUserWithEmailAndPassword(email, password);
-        this.state.navigation.actions.pop('Dashboard');
+        this.state.navigation.navigate('App');
       } catch(error) {
         alert(error.toString());
       }
@@ -37,8 +37,8 @@ export default class Login extends React.Component {
 
     loginUser = (email, password) => {
       try {
-        firebase.auth().signInWithEmailAndPassword(email,password).then(function(user){
-            state.navigation.actions.pop('Dashboard');
+            firebase.auth().signInWithEmailAndPassword(email,password).then((user) => {
+            this.state.navigation.navigate('App');
         });
         } catch(error) {
         alert(error.toString());

@@ -1,20 +1,29 @@
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {createSwitchNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 
 import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
+import AuthLoading from './screens/AuthLoading';
 
-const MainNavigator = createStackNavigator({
-  Home: {screen: Login},
-  Dashboard: {screen: Dashboard},
-}, {
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: '#5352ed',
-      color: 'white'
+const AppStack = createStackNavigator({ Home: Dashboard });
+const AuthStack = createStackNavigator({ SignIn: Login });
+
+const App = createAppContainer(createSwitchNavigator(
+  {
+    // AuthLoading: AuthLoading,
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'Auth',
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#5352ed',
+        color: 'white'
+      }
     }
   }
-});
-
-const App = createAppContainer(MainNavigator);
+));
 
 export default App;
