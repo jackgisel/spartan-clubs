@@ -9,6 +9,9 @@ class Dashboard extends React.Component {
       const {navigate} = this.props.navigation;
       return (
         <Container>
+            {
+              console.log('Dashboard: ' + this.state)
+            }
             <Label>Dashboard</Label>
         </Container>
       );
