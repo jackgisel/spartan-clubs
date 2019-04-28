@@ -3,9 +3,11 @@ import { StyleSheet, Text  } from 'react-native';
 import { Container, Form, Input, Item, Button, Label } from 'native-base';
 
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import config from '../fb';
 
 firebase.initializeApp(config);
+var db = firebase.firestore();
 
 export default class Login extends React.Component {
 
@@ -28,8 +30,10 @@ export default class Login extends React.Component {
           alert("Please enter at least 6 characters for the password");
           return;
         }
-        firebase.auth().createUserWithEmailAndPassword(email, password);
-        this.state.navigation.navigate('App');
+        firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
+          db.collection('users').add({ email });
+          this.state.navigation.navigate('App');
+        })
       } catch(error) {
         alert(error.toString());
       }
