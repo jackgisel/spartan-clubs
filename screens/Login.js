@@ -19,6 +19,7 @@ class Login extends React.Component {
       });
     }
 
+<<<<<<< HEAD
     // signUpUser = (email, password) => {
     //   try {
     //     if(password.length < 6) {
@@ -43,6 +44,30 @@ class Login extends React.Component {
     //     alert(error.toString());
     //   }
     // }
+=======
+    signUpUser = (email, password) => {
+      try {
+        if(password.length < 6) {
+          alert("Please enter at least 6 characters for the password");
+          return;
+        }
+        firebase.auth().createUserWithEmailAndPassword(email, password);
+        this.state.navigation.actions.pop('Dashboard');
+      } catch(error) {
+        alert(error.toString());
+      }
+    }
+
+    loginUser = (email, password) => {
+      try {
+        firebase.auth().signInWithEmailAndPassword(email,password).then(function(user){
+            state.navigation.actions.pop('Dashboard');
+        });
+        } catch(error) {
+        alert(error.toString());
+      }
+    }
+>>>>>>> parent of 61faaac... login and react-navigation working
 
     render() {
       return (

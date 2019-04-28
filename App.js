@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {createSwitchNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from "redux";
@@ -29,9 +30,26 @@ const Navigation = createAppContainer(createSwitchNavigator(
         backgroundColor: '#5352ed',
         color: 'white'
       }
+=======
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+
+import Login from './screens/Login';
+import Dashboard from './screens/Dashboard';
+
+const MainNavigator = createStackNavigator({
+  Home: {screen: Login},
+  Dashboard: {screen: Dashboard},
+}, {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#5352ed',
+      color: 'white'
+>>>>>>> parent of 61faaac... login and react-navigation working
     }
   }
-));
+});
+
+const App = createAppContainer(MainNavigator);
 
 class App extends React.Component {
   render() {
