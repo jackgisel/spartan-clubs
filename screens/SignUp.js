@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text  } from 'react-native';
-import { Container, Form, Input, Item, Button, Label } from 'native-base';
+import { Container, Form, Input, Item, Button, Label, Picker, Icon } from 'native-base';
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -12,24 +12,31 @@ var db = firebase.firestore();
 export default class Login extends React.Component {
 
     static navigationOptions = {
-        title: 'Login',
+        title: 'Sign up',
       };
 
     constructor(props){
       super(props);
       this.state = ({
+        name: '',
         email: '',
         password: '',
         ...props
       });
     }
 
-    loginUser = (email, password) => {
+    signUpUser = (email, password) => {
       try {
-            firebase.auth().signInWithEmailAndPassword(email,password).then((user) => {
-            this.state.navigation.navigate('App');
-        });
-        } catch(error) {
+        if(password.length < 6) {
+          alert("Please enter at least 6 characters for the password");
+          return;
+        }
+        firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
+          const name = this.state.name;
+          db.collection('users').add({ name, email });
+          this.state.navigation.navigate('App');
+        })
+      } catch(error) {
         alert(error.toString());
       }
     }
@@ -39,6 +46,14 @@ export default class Login extends React.Component {
         <Container style={styles.container}>
           <Label style={{ fontSize: 24 }}>Spartan Clubs</Label>
           <Form>
+          <Item floatingLabel>
+              <Label>Name</Label>
+              <Input
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={(name) => this.setState({name})}
+              />
+            </Item>
             <Item floatingLabel>
               <Label>Email</Label>
               <Input
@@ -59,17 +74,8 @@ export default class Login extends React.Component {
             <Button style={{marginTop:10}}
               full
               rounded
-              success
-              onPress={() => this.loginUser(this.state.email, this.state.password)}
-            >
-              <Text style={{color:'white'}}>Login</Text>
-            </Button>
-            <Label style={{ paddingTop: 15, textAlign: 'center' }}>New user? </Label>
-            <Button style={{marginTop:10}}
-              full
-              rounded
               primary
-              onPress={() => this.props.navigation.navigate('SignUp')}
+              onPress={() => this.signUpUser(this.state.email, this.state.password)}
             >
               <Text style={{color:'white'}}>Sign up</Text>
             </Button>

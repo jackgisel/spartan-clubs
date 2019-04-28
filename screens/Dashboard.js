@@ -21,7 +21,8 @@ const sampleData = [
 
 class Dashboard extends React.Component {
     static navigationOptions = {
-      title: 'Spartan Clubs'
+      title: 'Spartan Clubs',
+      headLeft: 'menu'
     };
 
     render() {
