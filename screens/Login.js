@@ -1,13 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text  } from 'react-native';
 import { Container, Form, Input, Item, Button, Label } from 'native-base';
+import { connect } from 'react-redux';
+import { signIn, signUp } from '../actions/authActions';
 
-import * as firebase from 'firebase';
-import config from '../fb';
-
-firebase.initializeApp(config);
-
-export default class Login extends React.Component {
+class Login extends React.Component {
 
     static navigationOptions = {
         title: 'Login',
@@ -22,30 +19,30 @@ export default class Login extends React.Component {
       });
     }
 
-    signUpUser = (email, password) => {
-      try {
-        if(password.length < 6) {
-          alert("Please enter at least 6 characters for the password");
-          return;
-        }
-        firebase.auth().createUserWithEmailAndPassword(email, password);
-        this.state.navigation.navigate('App');
-      } catch(error) {
-        alert(error.toString());
-      }
-    }
+    // signUpUser = (email, password) => {
+    //   try {
+    //     if(password.length < 6) {
+    //       alert("Please enter at least 6 characters for the password");
+    //       return;
+    //     }
+    //     firebase.auth().createUserWithEmailAndPassword(email, password);
+    //     this.state.navigation.navigate('App');
+    //   } catch(error) {
+    //     alert(error.toString());
+    //   }
+    // }
 
-    loginUser = (email, password) => {
-      try {
-            firebase.auth().signInWithEmailAndPassword(email,password).then((user) => {
-            this.state.navigation.navigate('App');
-            console.log('Logged in: ');
-            console.log(this.state);
-        });
-        } catch(error) {
-        alert(error.toString());
-      }
-    }
+    // loginUser = (email, password) => {
+    //   try {
+    //         firebase.auth().signInWithEmailAndPassword(email,password).then((user) => {
+    //         this.state.navigation.navigate('App');
+    //         console.log('Logged in: ');
+    //         console.log(this.state);
+    //     });
+    //     } catch(error) {
+    //     alert(error.toString());
+    //   }
+    // }
 
     render() {
       return (
@@ -73,7 +70,7 @@ export default class Login extends React.Component {
               full
               rounded
               success
-              onPress={() => this.loginUser(this.state.email, this.state.password)}
+              onPress={() => this.props.signIn(this.state.email, this.state.password)}
             >
               <Text style={{color:'white'}}>Login</Text>
             </Button>
@@ -81,7 +78,7 @@ export default class Login extends React.Component {
               full
               rounded
               primary
-              onPress={() => this.signUpUser(this.state.email, this.state.password)}
+              onPress={() => this.props.signUp(this.state.email, this.state.password)}
             >
               <Text style={{color:'white'}}>Sign up</Text>
             </Button>
@@ -99,3 +96,13 @@ export default class Login extends React.Component {
       padding: 10
     }
   });
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds)),
+    signUp: (creds) => dispatch(signUp(creds))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Login);
