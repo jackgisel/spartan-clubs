@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
 const sampleData = [
   {
@@ -17,7 +17,7 @@ const sampleData = [
     image: 'https://pbs.twimg.com/profile_images/542059386097508352/P45BUrwN.jpeg',
     about: 'We are trying to work at google'
   }
-]
+];
 
 class Dashboard extends React.Component {
     static navigationOptions = {
@@ -31,22 +31,44 @@ class Dashboard extends React.Component {
         <Container>
         <Content>
           <List>
-            {sampleData.map((club) => (
-              <ListItem key={club.title} thumbnail>
-                <Left>
-                  <Thumbnail square source={{ uri: club.image }} />
-                </Left>
-                <Body>
-                  <Text>{club.title}</Text>
-                  <Text note numberOfLines={1}>{club.about}</Text>
-                </Body>
-                <Right>
-                  <Button transparent>
-                    <Text>View</Text>
-                  </Button>
-                </Right>
-              </ListItem>
-            ))}
+            {
+               sampleData.map((club) => (
+               <ListItem key={club.title} thumbnail>
+                 <Left>
+                   <Thumbnail square source={{ uri: club.image }} />
+                 </Left>
+                 <Body>
+                   <Text>{club.title}</Text>
+                   <Text note numberOfLines={1}>{club.about}</Text>
+                 </Body>
+                 <Right>
+                   <Button transparent>
+                     <Text>View</Text>
+                   </Button>
+                 </Right>
+               </ListItem>
+             ))}
+             {/* {db.collection('clubs').get().then(function(querySnapshot) {
+                  querySnapshot.forEach(function(doc) {
+                      // doc.data() is never undefined for query doc snapshots
+                      console.log(doc.id, " => ", doc.data());
+
+                      <ListItem key={doc.id} thumbnail>
+                        <Left>
+                          <Thumbnail square source={{ uri: doc.data().image }} />
+                        </Left>
+                        <Body>
+                          <Text>{doc.data().title}</Text>
+                          <Text note numberOfLines={1}>{doc.data().about}</Text>
+                        </Body>
+                        <Right>
+                          <Button transparent>
+                            <Text>View</Text>
+                          </Button>
+                        </Right>
+                      </ListItem>
+                  });
+              })} */}
           </List>
         </Content>
       </Container>

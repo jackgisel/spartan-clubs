@@ -4,9 +4,7 @@ import { Container, Form, Input, Item, Button, Label, Picker, Icon } from 'nativ
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import config from '../fb';
 
-firebase.initializeApp(config);
 var db = firebase.firestore();
 
 export default class Login extends React.Component {
