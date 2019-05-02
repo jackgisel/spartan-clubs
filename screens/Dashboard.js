@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
-const sampleData = [
+const offlineData = [
   {
-    title: 'Hoplite',
+    title: 'OFFLINE',
     image: 'https://media.licdn.com/dms/image/C560BAQEctbr2Lpej5w/company-logo_400_400/0?e=1564617600&v=beta&t=Zi3PSIfeIGbhnOX85wypvvsojkRo-Debk3fR9gLfvA8',
     about: 'This is a club about coding interviews'
   },
@@ -19,59 +19,68 @@ const sampleData = [
   }
 ];
 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
+var db = firebase.firestore();
+
 class Dashboard extends React.Component {
     static navigationOptions = {
       title: 'Spartan Clubs',
       headLeft: 'menu'
     };
 
-    render() {
-      const {navigate} = this.props.navigation;
-      return (
-        <Container>
-        <Content>
-          <List>
-            {
-               sampleData.map((club) => (
-               <ListItem key={club.title} thumbnail>
-                 <Left>
-                   <Thumbnail square source={{ uri: club.image }} />
-                 </Left>
-                 <Body>
-                   <Text>{club.title}</Text>
-                   <Text note numberOfLines={1}>{club.about}</Text>
-                 </Body>
-                 <Right>
-                   <Button transparent>
-                     <Text>View</Text>
-                   </Button>
-                 </Right>
-               </ListItem>
-             ))}
-             {/* {db.collection('clubs').get().then(function(querySnapshot) {
-                  querySnapshot.forEach(function(doc) {
-                      // doc.data() is never undefined for query doc snapshots
-                      console.log(doc.id, " => ", doc.data());
+    constructor(props){
+      super(props);
+      this.state = ({
+        data: []
+      });
+    }
 
-                      <ListItem key={doc.id} thumbnail>
-                        <Left>
-                          <Thumbnail square source={{ uri: doc.data().image }} />
-                        </Left>
-                        <Body>
-                          <Text>{doc.data().title}</Text>
-                          <Text note numberOfLines={1}>{doc.data().about}</Text>
-                        </Body>
-                        <Right>
-                          <Button transparent>
-                            <Text>View</Text>
-                          </Button>
-                        </Right>
-                      </ListItem>
-                  });
-              })} */}
-          </List>
-        </Content>
-      </Container>
+    componentDidMount() {
+      const fetch = [];
+      db.collection('clubs').get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                let club = doc.data();
+                fetch.push({
+                  title: club.title,
+                  image: club.image,
+                  about: club.about
+                });
+            });
+
+        }).then(() => this.setState({ data: fetch }));
+    }
+
+    render() {
+      const { navigation } = this.props;
+        return (
+          <Container>
+          <Content>
+            <List>
+              {
+                this.state.data.map((club) => (
+                <ListItem key={club.title} thumbnail>
+                  <Left>
+                    <Thumbnail square source={{ uri: club.image }} />
+                  </Left>
+                  <Body>
+                    <Text>{club.title}</Text>
+                    <Text note numberOfLines={1}>{club.about}</Text>
+                  </Body>
+                  <Right>
+                    <Button
+                      transparent
+                      onPress={() => navigation.navigate('View', { club })}
+                    >
+                      <Text>View</Text>
+                    </Button>
+                  </Right>
+                </ListItem>
+              ))}
+            </List>
+          </Content>
+        </Container>
       );
     }
   }

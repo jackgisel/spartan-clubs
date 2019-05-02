@@ -7,7 +7,24 @@ import 'firebase/firestore';
 import config from '../fb';
 
 firebase.initializeApp(config);
-var db = firebase.firestore();
+
+const sampleData = [
+  {
+    title: 'WORKING',
+    image: 'https://media.licdn.com/dms/image/C560BAQEctbr2Lpej5w/company-logo_400_400/0?e=1564617600&v=beta&t=Zi3PSIfeIGbhnOX85wypvvsojkRo-Debk3fR9gLfvA8',
+    about: 'This is a club about coding interviews'
+  },
+  {
+    title: 'IS WORKING',
+    image: 'https://sce.engr.sjsu.edu/wp-content/uploads/2016/04/SCE_sq.png',
+    about: 'Code lots of stuff and build'
+  },
+  {
+    title: 'CS Club',
+    image: 'https://pbs.twimg.com/profile_images/542059386097508352/P45BUrwN.jpeg',
+    about: 'We are trying to work at google'
+  }
+];
 
 export default class Login extends React.Component {
 

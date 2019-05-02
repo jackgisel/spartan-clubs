@@ -3,9 +3,9 @@ import {createSwitchNavigator, createStackNavigator, createAppContainer} from 'r
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import Dashboard from './screens/Dashboard';
-import AuthLoading from './screens/AuthLoading';
+import ViewClub from './screens/ViewClub';
 
-const AppStack = createStackNavigator({ Home: Dashboard });
+const AppStack = createStackNavigator({ Home: Dashboard, View: ViewClub });
 const AuthStack = createStackNavigator({ SignIn: Login, SignUp: SignUp });
 
 const App = createAppContainer(createSwitchNavigator(
